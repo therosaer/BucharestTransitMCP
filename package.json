@@ -1,12 +1,28 @@
 {
   "name": "bucharest-transit-mcp",
   "version": "1.0.0",
-  "description": "Model Context Protocol (MCP) server for Bucharest public transit (STB, TPBI, Metrorex, Bilet TB)",
+  "description": "Model Context Protocol (MCP) server for Bucharest public transit (STB, TPBI, Metrorex) with real-time vehicle telemetry, timetables, and regional GTFS data",
   "main": "dist/index.js",
   "bin": {
     "bucharest-transit-mcp": "./dist/index.js"
   },
   "type": "module",
+  "files": [
+    "dist",
+    "!dist/tests",
+    "data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/therosaer/bucharest-transit-mcp.git"
+  },
+  "homepage": "https://github.com/therosaer/bucharest-transit-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/therosaer/bucharest-transit-mcp/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
@@ -23,7 +39,10 @@
     "metrorex",
     "transit",
     "public-transport",
-    "romania"
+    "romania",
+    "gtfs",
+    "telemetry",
+    "live-tracking"
   ],
   "author": "therosaer",
   "license": "MIT",
