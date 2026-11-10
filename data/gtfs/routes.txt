@@ -1,0 +1,203 @@
+route_id,agency_id,route_short_name,route_type,route_color,route_text_color,route_long_name
+PV9_466,PV9,466,3,662483,FFFFFF,
+828,1,196,3,1D71B8,FFFFFF,Aeroport Baneasa - Autogara Filaret
+814,1,5,0,BE1622,FFFFFF,Aeroport Baneasa - Pantelimon
+85,1,74,11,008D36,FFFFFF,Arcade Berceni - Piata Unirii
+210,1,232,3,1D71B8,FFFFFF,Arcade Berceni - Valea Ialomitei
+228,1,143,3,1D71B8,FFFFFF,Arena Nationala - Bucur Obor
+87,1,85,11,008D36,FFFFFF,Arena Nationala - Gara de Nord
+78,1,90,11,008D36,FFFFFF,Arena Nationala - M Petrache Poenaru
+112,1,382,3,1D71B8,FFFFFF,Baicului - Escalei
+134,1,312,3,1D71B8,FFFFFF,Bd. Alexandru Obregia - Piata Unirii 1
+888,1,478,3,662483,FFFFFF,Bd. Preciziei - Chiajna-Militari
+803,1,322,3,1D71B8,FFFFFF,Bd. Preciziei - Parcul Drumul Taberei
+620,1,241,3,1D71B8,FFFFFF,Biserica Sfintii Brancoveni - Cartier Aparatorii Patriei
+884,1,484B,3,662483,FFFFFF,Bragadiru Diamantului - Depoul Alexandria
+820,1,484,3,662483,FFFFFF,Bragadiru Diamantului - Ghencea
+821,1,485,3,662483,FFFFFF,Bragadiru Diamantului - Parcul Drumul Taberei
+202,1,123,3,1D71B8,FFFFFF,C.E.T. Sud Vitan - Gara Basarab
+143,1,106,3,1D71B8,FFFFFF,C.E.T. Vest Militari - Cartier Rosu
+65,1,25,0,BE1622,FFFFFF,C.F.R. Progresul - Depoul Militari
+180,1,116,3,1D71B8,FFFFFF,C.F.R. Progresul - Piata Sf. Vineri
+69,1,7,0,BE1622,FFFFFF,C.F.R. Progresul - Piata Unirii
+245,1,137,3,1D71B8,FFFFFF,Carrefour Militari - Piata 21 Decembrie 1989
+181,1,117,3,1D71B8,FFFFFF,Cartier Confort Urban - Piata Sf. Vineri
+76,1,93,11,008D36,FFFFFF,Cartier Constantin Brancusi - Piata Presei
+234,1,331,3,1D71B8,FFFFFF,Cartier Damaroaia - Piata Romana
+732,1,203,3,1D71B8,FFFFFF,Cartier Greenfield - Piata Victoriei
+83,1,86,11,008D36,FFFFFF,Cartier Pajura - Baicului
+851,1,434,3,662483,FFFFFF,Chiajna-Stelelor - M Lujerului
+901,1,483,3,662483,FFFFFF,Chiajna-Stelelor - M Lujerului
+73,1,79,11,008D36,FFFFFF,Clabucet - Calea Mosilor
+247,1,97,11,008D36,FFFFFF,Clabucet - Pasaj Mihai Bravu
+845,1,424,3,662483,FFFFFF,Clinceni - Depoul Alexandria
+843,1,425B,3,662483,FFFFFF,Clinceni - Ghencea
+81,1,62,11,008D36,FFFFFF,Colegiul Tehnic Iuliu Maniu - Gara de Nord
+84,1,61,11,008D36,FFFFFF,Complex Apusului - Piata Rosetti
+133,1,178,3,1D71B8,FFFFFF,Complex Apusului - Sala Palatului
+1015,1,290,3,1D71B8,FFFFFF,Complex Baneasa - Soseaua Colentina
+217,1,138,3,1D71B8,FFFFFF,Complex Militari - Dedeman Ghencea
+150,1,102,3,1D71B8,FFFFFF,Complex Pantelimon - C.F.R. Progresul
+146,1,104,3,1D71B8,FFFFFF,Complex Pantelimon - Piata Operei
+844,1,421,3,662483,FFFFFF,Cornetu - Depoul Alexandria
+835,1,422,3,662483,FFFFFF,Darvari - Ghencea
+848,1,431,3,662483,FFFFFF,Darvari - Valea Cascadelor
+158,1,221,3,1D71B8,FFFFFF,Dedeman Ghencea - C.E.T. Vest Militari
+165,1,227,3,1D71B8,FFFFFF,Depoul Alexandria - Cartier Confort Urban
+1037,1,228,3,1D71B8,FFFFFF,Depoul Alexandria - Cartier Confort Urban
+74,1,96,11,008D36,FFFFFF,Depoul Alexandria - Gara de Nord
+831,1,226,3,1D71B8,FFFFFF,Depoul Alexandria - Piata Romana
+70,1,32,0,BE1622,FFFFFF,Depoul Alexandria - Piata Unirii
+850,1,433,3,662483,FFFFFF,Dragomiresti Deal - Valea Cascadelor
+827,1,182,3,1D71B8,FFFFFF,Dragonul Rosu - Gara de Nord
+804,1,487,3,662483,FFFFFF,ELI-NP Magurele - Bd. G-ral Paul Teodorescu
+186,1,243,3,1D71B8,FFFFFF,Emil Racovita - Bd. Lacul Tei
+999,2,M5,1,F7951E,FFFFFF,Eroilor 2 - Valea Ialomiței/Râul Doamnei
+824,1,101,3,1D71B8,FFFFFF,Faur - Bucur Obor
+117,1,335,3,1D71B8,FFFFFF,Faur - Complex Baneasa
+66,1,27,0,BE1622,FFFFFF,Faur - Piata Unirii
+136,1,311,3,1D71B8,FFFFFF,Faur - Sala Palatului
+464,1,343,3,1D71B8,FFFFFF,Fundeni - Cartier Henri Coanda
+116,1,282,3,0070C0,FFFFFF,Gara Basarab - Soseaua Fundeni
+971,2,M4,1,3C746B,FFFFFF,Gara de Nord 2 - Straulesti
+175,1,185,3,1D71B8,FFFFFF,Ghencea - Cimitirul Ghencea 3
+61,1,47,0,BE1622,FFFFFF,Ghencea - Piata Unirii
+124,1,162,3,1D71B8,FFFFFF,Giulesti Sarbi - Gara Basarab
+126,1,163,3,1D71B8,FFFFFF,Giulesti Sarbi - Piata Operei
+859,1,446,3,662483,FFFFFF,Gruiu-Lipia - Piata Presei
+889,1,640,3,1D71B8,FFFFFF,Isovolta - Piata Sf. Vineri
+942,1,627,3,1D71B8,FFFFFF,M Nicolae Teclu - Dristorului
+189,1,246,3,1D71B8,FFFFFF,M Nicolae Teclu - Pantelimon
+916,1,95,11,008D36,FFFFFF,M Straulesti - Cartier Pajura
+203,1,304,3,1D71B8,FFFFFF,M Straulesti - Piata Presei
+121,1,205,3,1D71B8,FFFFFF,M Straulesti - Piata Unirii 2
+910,1,63,11,008D36,FFFFFF,Master - Pod Izvor
+915,1,53,0,BE1622,FFFFFF,Mezes - Depoul Bucurestii Noi
+365,1,448,3,662483,FFFFFF,Moara Vlasiei - Piata Presei
+837,1,425,3,662483,FFFFFF,Ordoreanu - Ghencea
+855,1,441,3,662483,FFFFFF,Ostratu - Piata Presei
+148,1,103,3,1D71B8,FFFFFF,Pantelimon - Isovolta
+968,2,M1,1,F8C301,,Pantelimon/Republica - Dristor 2
+113,1,330,3,0070C0,FFFFFF,Parcul Teilor - Dristorului
+201,1,301,3,1D71B8,FFFFFF,Pasaj CFR Tunari - Piata Romana
+159,1,222,3,1D71B8,FFFFFF,Pasaj Domnesti - Parcul Drumul Taberei
+825,1,122,3,1D71B8,FFFFFF,Pasaj Domnesti - Piata 21 Decembrie 1989
+214,1,135,3,1D71B8,FFFFFF,Pasajul Pipera - C.E.T. Sud Vitan
+183,1,112,3,1D71B8,FFFFFF,Pasajul Pipera - Complex Colosseum
+857,1,443,3,662483,FFFFFF,Peris - Piata Presei
+902,1,443B,3,662483,FFFFFF,Peris Sat - Piata Presei
+235,1,331B,3,1D71B8,FFFFFF,Petrom City - Piata Romana
+57,1,41,0,BE1622,FFFFFF,Piata Presei - Ghencea
+430,1,City Tour,3,00B0F0,FFFFFF,Piata Presei - Piata Unirii 2
+952,1,642,3,1D71B8,FFFFFF,Piata Presei - Vasile Parvan
+184,1,381,3,1D71B8,FFFFFF,Piata Resita - Clabucet
+86,1,76,11,008D36,FFFFFF,Piata Resita - Costache Stamate
+55,1,21,0,BE1622,FFFFFF,Piata Sf. Gheorghe - Pasaj Colentina
+621,1,655,3,1D71B8,FFFFFF,Piata Sf. Vineri - Piata Iancului
+119,1,605,3,1D71B8,FFFFFF,Piata Sf. Vineri - Soseaua Stefan cel Mare
+887,1,100,3,1D71B8,FFFFFF,Piata Unirii 2 - Aeroport Henri Coanda
+155,1,N114,3,2D2E83,FFFFFF,Piata Unirii 2 - Autobaza Alexandria
+141,1,N110,3,2D2E83,FFFFFF,Piata Unirii 2 - Cartier Giulesti
+154,1,N115,3,2D2E83,FFFFFF,Piata Unirii 2 - Colegiul Tehnic Iuliu Maniu
+145,1,N119,3,2D2E83,FFFFFF,Piata Unirii 2 - Complex Baneasa
+196,1,N103,3,2D2E83,FFFFFF,Piata Unirii 2 - Institutul Oncologic
+199,1,N109,3,2D2E83,FFFFFF,Piata Unirii 2 - Isovolta
+149,1,N117,3,2D2E83,FFFFFF,Piata Unirii 2 - M Straulesti
+137,1,N113,3,2D2E83,FFFFFF,Piata Unirii 2 - Mezes
+209,1,N102,3,2D2E83,FFFFFF,Piata Unirii 2 - Pantelimon
+207,1,N108,3,2D2E83,FFFFFF,Piata Unirii 2 - Pasaj Colentina
+174,1,N120,3,2D2E83,FFFFFF,Piata Unirii 2 - Soseaua Fundeni
+194,1,N106,3,2D2E83,FFFFFF,Piata Unirii 2 - Turnu Magurele
+169,1,N121,3,2D2E83,FFFFFF,Piata Unirii 2 - Valea Argesului
+152,1,N116,3,2D2E83,FFFFFF,Piata Unirii 2 - Valea Ialomitei
+208,1,N101,3,2D2E83,FFFFFF,Piata Unirii 2 - Valea Oltului
+147,1,N118,3,2D2E83,FFFFFF,Piata Unirii 2 - Zetarilor
+204,1,N107,3,2D2E83,FFFFFF,Piata Unirii 4 - C.F.R. Progresul
+167,1,N122,3,2D2E83,FFFFFF,Piata Unirii 4 - Faur
+140,1,N111,3,2D2E83,FFFFFF,Piata Unirii 4 - M Nicolae Teclu
+197,1,N104,3,2D2E83,FFFFFF,Piata Unirii 4 - Parcul Teilor
+139,1,N112,3,2D2E83,FFFFFF,Piata Unirii 4 - Piata Resita
+192,1,N105,3,2D2E83,FFFFFF,Piata Unirii 4 - Vulcan Berceni
+925,1,73,11,008D36,FFFFFF,Piata de Gros - Piata Sf. Vineri
+969,2,M2,1,495676,FFFFFF,Pipera - Berceni - Tudor Arghezi
+858,1,444,3,662483,FFFFFF,Piscu - Piata Presei
+970,2,M3,1,DA251C,FFFFFF,Preciziei - Anghel Saligny
+68,1,1,0,BE1622,FFFFFF,Romprim - Bd. Banu Manta
+67,1,10,0,BE1622,FFFFFF,Romprim - Bd. Banu Manta
+812,1,N1,3,2D2E83,FFFFFF,Romprim - Bd. Banu Manta
+735,1,N10,3,2D2E83,FFFFFF,Romprim - Bd. Banu Manta
+395,1,477,3,662483,FFFFFF,Sitaru - Piata Presei
+232,1,253,3,1D71B8,FFFFFF,Spitalul Fundeni - Parcul Teilor
+72,1,66,11,008D36,FFFFFF,Spitalul Fundeni - Vasile Parvan
+661,1,619,3,1D71B8,FFFFFF,Sura Mare - Faur
+1013,1,4,0,BE1622,FFFFFF,Sura Mare - Zetarilor
+874,1,441B,3,662483,FFFFFF,Tamasi - Piata Presei
+836,1,423,3,662483,FFFFFF,Teghes - Ghencea
+856,1,442,3,662483,FFFFFF,Therme Bucuresti - Piata Presei
+980,1,301B,3,1D71B8,FFFFFF,Tunari - Piata Romana
+924,1,72,11,008D36,FFFFFF,Turnu Magurele - Costache Stamate
+160,1,223,3,1D71B8,FFFFFF,Univ. Crestina Dimitrie Cantemir - Pasarela
+75,1,69,11,008D36,FFFFFF,Valea Argesului - Bd. Basarabia
+826,1,168,3,1D71B8,FFFFFF,Valea Ialomitei - Piata Romana
+833,1,368,3,1D71B8,FFFFFF,Valea Oltului - Piata Romana
+404,1,385,3,1D71B8,FFFFFF,Valea Oltului - Piata Sf. Vineri
+144,1,105,3,1D71B8,FFFFFF,Valea Oltului - Soseaua Nicolae Titulescu
+191,1,125,3,1D71B8,FFFFFF,Vulcan Berceni - Peco Silflor Move
+830,1,220,3,1D71B8,FFFFFF,Vulcan Berceni - Piata Rahova
+54,1,11,0,BE1622,FFFFFF,Zetarilor - Cartier Giulesti
+63,1,23,0,BE1622,FFFFFF,Zetarilor - Faur
+218,1,139,3,1D71B8,FFFFFF,Zetarilor - Piata Leul
+829,1,216,3,1D71B8,FFFFFF,Zetarilor - Piata Sudului
+832,1,323,3,1D71B8,FFFFFF,Zetarilor - Piata Unirii 1
+233,1,141,3,1D71B8,FFFFFF,Zetarilor - Vulcan Berceni
+849,1,432,3,662483,FFFFFF,Zurbaua - Valea Cascadelor
+PV1_403,PV1,403,3,662483,FFFFFF,
+PV1_405,PV1,405,3,662483,FFFFFF,
+PV1_407,PV1,407,3,662483,FFFFFF,
+PV1_408,PV1,408,3,662483,FFFFFF,
+PV1_409B,PV1,409B,3,662483,FFFFFF,
+PV1_409,PV1,409,3,662483,FFFFFF,
+PV1_411,PV1,411,3,662483,FFFFFF,
+PV1_412,PV1,412,3,662483,FFFFFF,
+PV1_413,PV1,413,3,662483,FFFFFF,
+PV1_416,PV1,416,3,662483,FFFFFF,
+PV1_417,PV1,417,3,662483,FFFFFF,
+PV1_418,PV1,418,3,662483,FFFFFF,
+PV1_419,PV1,419,3,662483,FFFFFF,
+PV1_420,PV1,420,3,662483,FFFFFF,
+PV1_426,PV1,426,3,662483,FFFFFF,
+PV1_427,PV1,427,3,662483,FFFFFF,
+PV1_428,PV1,428,3,662483,FFFFFF,
+PV1_438,PV1,438,3,662483,FFFFFF,
+PV1_439,PV1,439,3,662483,FFFFFF,
+PV1_440,PV1,440,3,662483,FFFFFF,
+PV1_447,PV1,447,3,662483,FFFFFF,
+PV1_447B,PV1,447B,3,662483,FFFFFF,
+PV1_449,PV1,449,3,662483,FFFFFF,
+PV1_450,PV1,450,3,662483,FFFFFF,
+PV1_451,PV1,451,3,662483,FFFFFF,
+PV1_452,PV1,452,3,662483,FFFFFF,
+PV1_454,PV1,454,3,662483,FFFFFF,
+PV1_455,PV1,455,3,662483,FFFFFF,
+PV1_457,PV1,457,3,662483,FFFFFF,
+PV1_458,PV1,458,3,662483,FFFFFF,
+PV1_459,PV1,459,3,662483,FFFFFF,
+PV1_464,PV1,464,3,662483,FFFFFF,
+PV1_465,PV1,465,3,662483,FFFFFF,
+PV1_467,PV1,467,3,662483,FFFFFF,
+PV1_468,PV1,468,3,662483,FFFFFF,
+PV1_468B,PV1,468B,3,662483,FFFFFF,
+PV1_472,PV1,472,3,662483,FFFFFF,
+PV1_473,PV1,473,3,662483,FFFFFF,
+PV1_475,PV1,475,3,662483,FFFFFF,
+PV1_479,PV1,479,3,662483,FFFFFF,
+PV1_480,PV1,480,3,662483,FFFFFF,
+PV1_488,PV1,488,3,662483,FFFFFF,
+PV9_462,PV9,462,3,662483,FFFFFF,
+PV2_429,PV2,429,3,662483,FFFFFF,
+PV2_435,PV2,435,3,662483,FFFFFF,
+PV2_436,PV2,436,3,662483,FFFFFF,
+PV2_470,PV2,470,3,662483,FFFFFF,
+PV2_476,PV2,476,3,662483,FFFFFF,
+PV2_481,PV2,481,3,662483,FFFFFF,
+PV2_482,PV2,482,3,662483,FFFFFF,

@@ -1,0 +1,6 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_fare_url,agency_email
+1,STB SA,http://stbsa.ro/?utm_source=gmaps,Europe/Bucharest,ro,0213110595,https://tpbi.ro/bilete-si-abonamente?utm_source=gmaps,contact@stbsa.ro
+2,METROREX SA,http://www.metrorex.ro/?utm_source=gmaps,Europe/Bucharest,ro,0213193601,http://www.metrorex.ro/titluri-de-calatorie-tarife?utm_source=gmaps,contact@metrorex.ro
+PV1,STV SA,https://www.stvsa.ro/?utm_source=gmaps,Europe/Bucharest,ro,0314369921,https://tpbi.ro/bilete-si-abonamente?utm_source=gmaps,office@stvsa.ro
+PV2,STCM,https://stcm.ro/?utm_source=gmaps,Europe/Bucharest,ro,0786601271,https://tpbi.ro/bilete-si-abonamente?utm_source=gmaps,office@stcm.ro
+PV9,REGIO SERV TRANSPORT,https://regioserv.ro/?utm_source=gmaps,Europe/Bucharest,ro,0759032112,https://tpbi.ro/bilete-si-abonamente?utm_source=gmaps,office@regioserv.ro
