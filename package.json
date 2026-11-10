@@ -14,11 +14,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/therosaer/bucharest-transit-mcp.git"
+    "url": "git+https://github.com/therosaer/BucharestTransitMCP.git"
   },
-  "homepage": "https://github.com/therosaer/bucharest-transit-mcp#readme",
+  "homepage": "https://github.com/therosaer/BucharestTransitMCP#readme",
   "bugs": {
-    "url": "https://github.com/therosaer/bucharest-transit-mcp/issues"
+    "url": "https://github.com/therosaer/BucharestTransitMCP/issues"
   },
   "publishConfig": {
     "access": "public"

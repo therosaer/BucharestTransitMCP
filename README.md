@@ -198,8 +198,8 @@ claude mcp add bucharest-transit npx -y bucharest-transit-mcp
 
 ```bash
 # Clone the repository
-git clone https://github.com/therosaer/bucharest-transit-mcp.git
-cd bucharest-transit-mcp
+git clone https://github.com/therosaer/BucharestTransitMCP.git
+cd BucharestTransitMCP
 
 # Install dependencies
 npm install
