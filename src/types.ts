@@ -105,6 +105,10 @@ export interface Station {
   id: string;
   name: string;
   code?: string;
+  description?: string;
+  platformCode?: string;
+  parentStation?: string;
+  amenities?: string[];
   terminal?: string;
   lat: number;
   lon: number;
@@ -133,6 +137,7 @@ export interface NearbyStop {
   id: string;
   name: string;
   code?: string;
+  description?: string;
   latitude: number;
   longitude: number;
   distanceMeters: number;
@@ -186,35 +191,18 @@ export interface DirectRouteConnection {
   nextDepartureFromOrigin?: string;
 }
 
-export interface BiletCatalogItem {
-  id: number;
-  name: string;
-  group: string;
-  fareRon: number;
-  validMinutes: number;
-  description: string;
-}
-
-export interface BiletTicket {
+export interface TransitAgency {
   id: string;
-  title: string;
-  type: string;
-  seriesCode?: string;
-  validFromDate?: string;
-  validToDate?: string;
-  remainingSeconds?: number;
-  isStudentOrPupil: boolean;
-  status: string;
-  qrPayload?: string;
+  name: string;
+  url: string;
+  timezone: string;
+  lang: string;
+  phone?: string;
+  email?: string;
 }
 
-export interface BiletAccountInfo {
-  id?: number | string;
-  login?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phone?: string;
-  category?: string;
-  isStudent?: boolean;
+export interface StationTransfer {
+  fromStopId: string;
+  toStopId: string;
+  transferType: string;
 }

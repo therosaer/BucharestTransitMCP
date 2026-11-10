@@ -7,7 +7,9 @@ import {
   type RawLineRouteEntry,
   type RouteMetadata,
   type Station,
-  type StationSchedule
+  type StationSchedule,
+  type StationTransfer,
+  type TransitAgency
 } from '../types.js';
 import {
   calculateNextDepartures,
@@ -17,10 +19,22 @@ import {
   resolveDataPath
 } from '../utils.js';
 
+interface GtfsStopInfo {
+  stopId: string;
+  name: string;
+  desc?: string;
+  platformCode?: string;
+  parentStation?: string;
+}
+
 interface UniqueStopAccumulator {
   id: string;
   name: string;
   code?: string;
+  description?: string;
+  platformCode?: string;
+  parentStation?: string;
+  amenities?: string[];
   lat: number;
   lon: number;
   lines: Map<
@@ -35,12 +49,35 @@ interface UniqueStopAccumulator {
   >;
 }
 
+function parseCsvLine(line: string): string[] {
+  const result: string[] = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === ',' && !inQuotes) {
+      result.push(current);
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
 export class TransitDataManager {
   private static instance: TransitDataManager;
 
   private routesMap: Map<string, RouteMetadata> = new Map();
   private lineIndex: Map<string, RawLineRouteEntry> = new Map();
   private uniqueStops: Map<string, UniqueStopAccumulator> = new Map();
+  private agencies: TransitAgency[] = [];
+  private gtfsStopsById: Map<string, GtfsStopInfo> = new Map();
+  private stopAmenities: Map<string, string[]> = new Map();
+  private transfersByStop: Map<string, StationTransfer[]> = new Map();
   private initialized = false;
 
   public static getInstance(): TransitDataManager {
@@ -58,6 +95,8 @@ export class TransitDataManager {
     if (this.initialized) return;
 
     try {
+      this.loadGtfsSupplementaryData();
+
       // 1. Load routes_map.json
       const routesMapPath = resolveDataPath('routes_map.json');
       const rawRoutes = JSON.parse(fs.readFileSync(routesMapPath, 'utf8')) as Record<
@@ -67,7 +106,6 @@ export class TransitDataManager {
 
       for (const [key, meta] of Object.entries(rawRoutes)) {
         this.routesMap.set(key.toUpperCase(), meta);
-        // Also map clean line number if not present
         if (meta.line) {
           const cleanLineKey = meta.line.toUpperCase();
           if (!this.routesMap.has(cleanLineKey)) {
@@ -108,16 +146,109 @@ export class TransitDataManager {
     }
   }
 
+  private loadGtfsSupplementaryData(): void {
+    // 1. Load agencies
+    try {
+      const agencyPath = resolveDataPath('gtfs/agency.txt');
+      const agencyText = fs.readFileSync(agencyPath, 'utf8');
+      const lines = agencyText.split(/\r?\n/).filter((l) => l.trim().length > 0);
+      for (let i = 1; i < lines.length; i++) {
+        const cols = parseCsvLine(lines[i]);
+        if (cols.length >= 5) {
+          this.agencies.push({
+            id: cols[0],
+            name: cols[1],
+            url: cols[2],
+            timezone: cols[3],
+            lang: cols[4],
+            phone: cols[5] || undefined,
+            email: cols[7] || undefined
+          });
+        }
+      }
+    } catch (e) {
+      console.warn('Could not load GTFS agency.txt:', e);
+    }
+
+    // 2. Load stop amenities
+    try {
+      const amenitiesPath = resolveDataPath('gtfs/stop_amenities.txt');
+      const text = fs.readFileSync(amenitiesPath, 'utf8');
+      const lines = text.split(/\r?\n/).filter((l) => l.trim().length > 0);
+      for (let i = 1; i < lines.length; i++) {
+        const [stopId, amenity] = lines[i].split(',');
+        if (stopId && amenity) {
+          const list = this.stopAmenities.get(stopId) || [];
+          list.push(amenity);
+          this.stopAmenities.set(stopId, list);
+        }
+      }
+    } catch (e) {
+      console.warn('Could not load GTFS stop_amenities.txt:', e);
+    }
+
+    // 3. Load transfers
+    try {
+      const transfersPath = resolveDataPath('gtfs/transfers.txt');
+      const text = fs.readFileSync(transfersPath, 'utf8');
+      const lines = text.split(/\r?\n/).filter((l) => l.trim().length > 0);
+      for (let i = 1; i < lines.length; i++) {
+        const [fromId, toId, type] = lines[i].split(',');
+        if (fromId && toId) {
+          const item: StationTransfer = {
+            fromStopId: fromId,
+            toStopId: toId,
+            transferType: type || 'standard'
+          };
+          const list = this.transfersByStop.get(fromId) || [];
+          list.push(item);
+          this.transfersByStop.set(fromId, list);
+        }
+      }
+    } catch (e) {
+      console.warn('Could not load GTFS transfers.txt:', e);
+    }
+
+    // 4. Load stops metadata (address/desc, platform)
+    try {
+      const stopsPath = resolveDataPath('gtfs/stops.txt');
+      const text = fs.readFileSync(stopsPath, 'utf8');
+      const lines = text.split(/\r?\n/).filter((l) => l.trim().length > 0);
+      for (let i = 1; i < lines.length; i++) {
+        const cols = parseCsvLine(lines[i]);
+        if (cols.length >= 5) {
+          const stopId = cols[0];
+          const name = cols[1];
+          const desc = cols[2] && cols[2] !== '' ? cols[2] : undefined;
+          const platformCode = cols[6] && cols[6] !== '' ? cols[6] : undefined;
+          const parentStation = cols[7] && cols[7] !== '' ? cols[7] : undefined;
+
+          this.gtfsStopsById.set(stopId, {
+            stopId,
+            name,
+            desc,
+            platformCode,
+            parentStation
+          });
+        }
+      }
+    } catch (e) {
+      console.warn('Could not load GTFS stops.txt:', e);
+    }
+  }
+
   private indexStation(
     st: { name: string; code?: string; lat: number; lon: number; schedule_wd?: string; schedule_we?: string },
     line: string,
     transitType: string,
     direction: string
   ): void {
-    // Generate a deduplication key using code or rounded coordinates + normalized name
     const stopKey = st.code && st.code !== 'None'
       ? `code-${st.code}`
       : `${normalizeText(st.name)}-${st.lat.toFixed(4)}-${st.lon.toFixed(4)}`;
+
+    const gtfsInfo = st.code ? this.gtfsStopsById.get(st.code) : undefined;
+    const amenities = st.code ? this.stopAmenities.get(st.code) : undefined;
 
     let stop = this.uniqueStops.get(stopKey);
     if (!stop) {
@@ -125,11 +256,17 @@ export class TransitDataManager {
         id: stopKey,
         name: st.name,
         code: st.code && st.code !== 'None' ? st.code : undefined,
+        description: gtfsInfo?.desc,
+        platformCode: gtfsInfo?.platformCode,
+        parentStation: gtfsInfo?.parentStation,
+        amenities: amenities && amenities.length > 0 ? amenities : undefined,
         lat: st.lat,
         lon: st.lon,
         lines: new Map()
       };
       this.uniqueStops.set(stopKey, stop);
+    } else if (!stop.description && gtfsInfo?.desc) {
+      stop.description = gtfsInfo.desc;
     }
 
     const serviceKey = `${line}-${direction}`;
@@ -144,13 +281,33 @@ export class TransitDataManager {
     }
   }
 
+  public getAgencies(): TransitAgency[] {
+    return this.agencies;
+  }
+
+  public getTransfers(stopIdOrName: string): StationTransfer[] {
+    const q = stopIdOrName.trim();
+    if (this.transfersByStop.has(q)) {
+      return this.transfersByStop.get(q) || [];
+    }
+
+    const qNorm = normalizeText(q);
+    const results: StationTransfer[] = [];
+    for (const [stopId, info] of this.gtfsStopsById.entries()) {
+      if (normalizeText(info.name).includes(qNorm)) {
+        const transfers = this.transfersByStop.get(stopId);
+        if (transfers) {
+          results.push(...transfers);
+        }
+      }
+    }
+    return results;
+  }
+
   public getRouteMetadata(routeIdOrLine: string): RouteMetadata | undefined {
     return this.routesMap.get(routeIdOrLine.toUpperCase());
   }
 
-  /**
-   * List all lines with optional filtering by transit mode or search query
-   */
   public listLines(typeFilter?: string, query?: string): LineSummary[] {
     const results: LineSummary[] = [];
     const normalizedQuery = query ? normalizeText(query) : '';
@@ -177,7 +334,6 @@ export class TransitDataManager {
         terminals.push(...meta.terminals);
       }
 
-      // Check type filter
       if (normalizedType && normalizedType !== 'all') {
         const matchesType =
           normalizeText(type).includes(normalizedType) ||
@@ -185,7 +341,6 @@ export class TransitDataManager {
         if (!matchesType) continue;
       }
 
-      // Check search query
       if (normalizedQuery) {
         const matchesQuery =
           normalizeText(lineName).includes(normalizedQuery) ||
@@ -205,9 +360,7 @@ export class TransitDataManager {
       });
     }
 
-    // Sort by natural alphanumeric order
     results.sort((a, b) => a.line.localeCompare(b.line, undefined, { numeric: true, sensitivity: 'base' }));
-
     return results;
   }
 
@@ -231,9 +384,6 @@ export class TransitDataManager {
     }
   }
 
-  /**
-   * Get complete details of a specific line (stations, terminals, polylines)
-   */
   public getLineDetails(lineName: string): LineDetails | null {
     const lineKey = lineName.trim().toUpperCase();
     const entry = this.lineIndex.get(lineKey);
@@ -245,16 +395,26 @@ export class TransitDataManager {
     const color = meta?.color || '#007AFF';
     const operator = meta?.operator || 'STB';
 
-    const mapStation = (raw: any, index: number, dir: string): Station => ({
-      id: raw.code ? `${lineKey}-${dir}-${raw.code}` : `${lineKey}-${dir}-${index}`,
-      name: raw.name,
-      code: raw.code && raw.code !== 'None' ? raw.code : undefined,
-      terminal: raw.terminal,
-      lat: raw.lat,
-      lon: raw.lon,
-      scheduleWd: raw.schedule_wd,
-      scheduleWe: raw.schedule_we
-    });
+    const mapStation = (raw: any, index: number, dir: string): Station => {
+      const code = raw.code && raw.code !== 'None' ? raw.code : undefined;
+      const gtfsInfo = code ? this.gtfsStopsById.get(code) : undefined;
+      const amenities = code ? this.stopAmenities.get(code) : undefined;
+
+      return {
+        id: code ? `${lineKey}-${dir}-${code}` : `${lineKey}-${dir}-${index}`,
+        name: raw.name,
+        code,
+        description: gtfsInfo?.desc,
+        platformCode: gtfsInfo?.platformCode,
+        parentStation: gtfsInfo?.parentStation,
+        amenities: amenities && amenities.length > 0 ? amenities : undefined,
+        terminal: raw.terminal,
+        lat: raw.lat,
+        lon: raw.lon,
+        scheduleWd: raw.schedule_wd,
+        scheduleWe: raw.schedule_we
+      };
+    };
 
     const turStations = (entry.tur_stations || []).map((s, idx) => mapStation(s, idx, 'tur'));
     const returStations = (entry.retur_stations || []).map((s, idx) => mapStation(s, idx, 'retur'));
@@ -275,12 +435,12 @@ export class TransitDataManager {
     };
   }
 
-  /**
-   * Search stations by name or code
-   */
   public searchStations(query: string, limit = 15): Array<{
     name: string;
     code?: string;
+    description?: string;
+    platformCode?: string;
+    amenities?: string[];
     latitude: number;
     longitude: number;
     lines: Array<{ line: string; type: string; direction: string }>;
@@ -291,6 +451,9 @@ export class TransitDataManager {
     const results: Array<{
       name: string;
       code?: string;
+      description?: string;
+      platformCode?: string;
+      amenities?: string[];
       latitude: number;
       longitude: number;
       lines: Array<{ line: string; type: string; direction: string }>;
@@ -300,6 +463,7 @@ export class TransitDataManager {
     for (const stop of this.uniqueStops.values()) {
       const stopNameNorm = normalizeText(stop.name);
       const codeNorm = stop.code ? normalizeText(stop.code) : '';
+      const descNorm = stop.description ? normalizeText(stop.description) : '';
 
       let score = -1;
       if (stopNameNorm === qNorm || codeNorm === qNorm) {
@@ -308,12 +472,17 @@ export class TransitDataManager {
         score = 75;
       } else if (stopNameNorm.includes(qNorm) || codeNorm.includes(qNorm)) {
         score = 50;
+      } else if (descNorm.includes(qNorm)) {
+        score = 30;
       }
 
       if (score > 0) {
         results.push({
           name: stop.name,
           code: stop.code,
+          description: stop.description,
+          platformCode: stop.platformCode,
+          amenities: stop.amenities,
           latitude: stop.lat,
           longitude: stop.lon,
           lines: Array.from(stop.lines.values()).map((l) => ({
@@ -330,9 +499,6 @@ export class TransitDataManager {
     return results.slice(0, limit).map(({ score, ...rest }) => rest);
   }
 
-  /**
-   * Find stops near given GPS coordinates within radiusMeters
-   */
   public findNearbyStops(
     lat: number,
     lon: number,
@@ -359,6 +525,7 @@ export class TransitDataManager {
           id: stop.id,
           name: stop.name,
           code: stop.code,
+          description: stop.description,
           latitude: stop.lat,
           longitude: stop.lon,
           distanceMeters: dist,
@@ -371,9 +538,6 @@ export class TransitDataManager {
     return results.slice(0, limit);
   }
 
-  /**
-   * Get departures and real-time countdown for a station on a specific line
-   */
   public getStationSchedule(
     lineName: string,
     stationQuery: string,
@@ -429,9 +593,6 @@ export class TransitDataManager {
     return results;
   }
 
-  /**
-   * Find direct lines connecting two stations
-   */
   public findDirectRoute(
     originQuery: string,
     destinationQuery: string
@@ -449,7 +610,6 @@ export class TransitDataManager {
       const typeName = meta?.typeName || this.getDefaultTypeName(type);
       const color = meta?.color || '#007AFF';
 
-      // Check Tur direction
       if (entry.tur_stations) {
         const conn = this.checkSequence(
           entry.tur_stations,
@@ -464,7 +624,6 @@ export class TransitDataManager {
         if (conn) connections.push(conn);
       }
 
-      // Check Retur direction
       if (entry.retur_stations) {
         const conn = this.checkSequence(
           entry.retur_stations,
@@ -480,7 +639,6 @@ export class TransitDataManager {
       }
     }
 
-    // Sort by fewest stops first
     connections.sort((a, b) => a.stopsCount - b.stopsCount);
     return connections;
   }

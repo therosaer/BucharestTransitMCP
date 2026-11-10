@@ -60,3 +60,28 @@ test('TransitDataManager: findDirectRoute finds direct connection between statio
   assert.ok(line41Route, 'Direct route 41 should be in the list');
   assert.ok(line41Route?.stopsCount > 5, 'Should have intermediate stops');
 });
+
+test('TransitDataManager: GTFS agencies are loaded', () => {
+  const manager = TransitDataManager.getInstance();
+  const agencies = manager.getAgencies();
+  assert.ok(agencies.length >= 5, `Expected at least 5 agencies, got ${agencies.length}`);
+  const stb = agencies.find((a) => a.id === 'STB' || a.name.includes('STB'));
+  assert.ok(stb, 'STB agency should exist');
+  const metrorex = agencies.find((a) => a.id === 'METROREX' || a.name.includes('METROREX'));
+  assert.ok(metrorex, 'Metrorex agency should exist');
+});
+
+test('TransitDataManager: GTFS stop enrichment and transfers', () => {
+  const manager = TransitDataManager.getInstance();
+  // Check enriched stop data
+  const stations = manager.searchStations('Presei', 5);
+  assert.ok(stations.length > 0);
+  assert.ok(stations[0].description, 'Stop should have street address description from GTFS');
+
+  // Check transfers
+  const transfers = manager.getTransfers('Gara de Nord');
+  assert.ok(transfers.length > 0, 'Should find transfers at Gara de Nord');
+  assert.ok(transfers[0].fromStopId, 'Transfer should have fromStopId');
+  assert.ok(transfers[0].toStopId, 'Transfer should have toStopId');
+});
+

@@ -1,6 +1,5 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import { BiletTBService } from './services/bilet-service.js';
 import { TransitDataManager } from './services/data-manager.js';
 import { LiveVehicleService } from './services/live-vehicles.js';
 
@@ -12,7 +11,6 @@ export function createServer(): McpServer {
 
   const dataManager = TransitDataManager.getInstance();
   const vehicleService = LiveVehicleService.getInstance();
-  const biletService = BiletTBService.getInstance();
 
   // ===========================================================================
   // Tool 1: get_live_vehicles
@@ -409,105 +407,56 @@ export function createServer(): McpServer {
   );
 
   // ===========================================================================
-  // Tool 10: bilet_tb_catalog
+  // Tool 10: get_transit_agencies
   // ===========================================================================
   server.tool(
-    'bilet_tb_catalog',
-    'List official Bucharest metropolitan public transport tickets, passes, airport train connections, and student subscriptions from STB / Bilet TB with prices in RON, validity duration, and conditions.',
+    'get_transit_agencies',
+    'Get official public transport agencies operating in the Bucharest-Ilfov region (STB SA, METROREX SA, STV SA, STCM, Regio Serv) with contact details.',
     {},
     async () => {
       try {
-        const catalog = biletService.getCatalog();
+        const agencies = dataManager.getAgencies();
         return {
           content: [
             {
               type: 'text',
-              text: JSON.stringify(
-                {
-                  system: 'Bilet TB / STB SA Sistem Integrat de Tarifare',
-                  coverage: 'Regiunea București - Ilfov',
-                  tickets: catalog
-                },
-                null,
-                2
-              )
+              text: JSON.stringify({ count: agencies.length, agencies }, null, 2)
             }
           ]
         };
       } catch (err: any) {
         return {
           isError: true,
-          content: [{ type: 'text', text: `Failed to get ticketing catalog: ${err.message}` }]
+          content: [{ type: 'text', text: `Failed to get transit agencies: ${err.message}` }]
         };
       }
     }
   );
 
   // ===========================================================================
-  // Tool 11: bilet_tb_status
+  // Tool 11: get_station_transfers
   // ===========================================================================
   server.tool(
-    'bilet_tb_status',
-    'Check Bilet TB / STB ticketing account and active passes/tickets (such as student/pupil free passes, 90-minute tickets, 24h/30-day passes) and their QR codes. Can use environment variable STB_BILET_TOKEN or provided credentials.',
+    'get_station_transfers',
+    'Get multimodal transfer points and connections for a station or stop in Bucharest (e.g. between metro and surface transit).',
     {
-      token: z.string().optional().describe('Bilet TB session bearer token'),
-      username: z.string().optional().describe('STB account email/username to login'),
-      password: z.string().optional().describe('STB account password')
+      station: z.string().describe('Station name or stop ID (e.g. "Gara de Nord", "Piata Victoriei", "14702R")')
     },
-    async ({ token, username, password }) => {
+    async ({ station }) => {
       try {
-        let activeToken = biletService.resolveToken(token);
-
-        if (!activeToken && username && password) {
-          activeToken = await biletService.authenticate(username, password);
-        }
-
-        if (!activeToken) {
-          return {
-            content: [
-              {
-                type: 'text',
-                text: JSON.stringify(
-                  {
-                    authenticated: false,
-                    message:
-                      'No active Bilet TB session found. Provide "token" or "username" + "password", or set STB_BILET_TOKEN environment variable. You can use bilet_tb_catalog to see official ticket prices.',
-                    catalogSnippet: biletService.getCatalog().slice(0, 4)
-                  },
-                  null,
-                  2
-                )
-              }
-            ]
-          };
-        }
-
-        const [account, tickets] = await Promise.all([
-          biletService.getAccount(activeToken).catch(() => null),
-          biletService.getActiveTickets(activeToken).catch(() => [])
-        ]);
-
+        const transfers = dataManager.getTransfers(station);
         return {
           content: [
             {
               type: 'text',
-              text: JSON.stringify(
-                {
-                  authenticated: true,
-                  account,
-                  activeTicketsCount: tickets.length,
-                  tickets
-                },
-                null,
-                2
-              )
+              text: JSON.stringify({ query: station, count: transfers.length, transfers }, null, 2)
             }
           ]
         };
       } catch (err: any) {
         return {
           isError: true,
-          content: [{ type: 'text', text: `Bilet TB status check error: ${err.message}` }]
+          content: [{ type: 'text', text: `Failed to get station transfers: ${err.message}` }]
         };
       }
     }
@@ -553,17 +502,17 @@ export function createServer(): McpServer {
   );
 
   server.resource(
-    'ticket_catalog',
-    'bucharest://transit/catalog',
-    { description: 'Official STB / Bilet TB public transit ticket and pass catalog' },
+    'transit_agencies',
+    'bucharest://transit/agencies',
+    { description: 'Official public transport agencies in Bucharest-Ilfov' },
     async (uri) => {
-      const catalog = biletService.getCatalog();
+      const agencies = dataManager.getAgencies();
       return {
         contents: [
           {
             uri: uri.href,
             mimeType: 'application/json',
-            text: JSON.stringify(catalog, null, 2)
+            text: JSON.stringify(agencies, null, 2)
           }
         ]
       };

@@ -25,8 +25,10 @@ test('MCP Server: tools, resources, and prompts integration', async () => {
   assert.ok(toolNames.includes('search_stations'));
   assert.ok(toolNames.includes('find_nearby_stops'));
   assert.ok(toolNames.includes('plan_direct_route'));
-  assert.ok(toolNames.includes('bilet_tb_catalog'));
-  assert.ok(toolNames.includes('bilet_tb_status'));
+  assert.ok(toolNames.includes('get_transit_agencies'));
+  assert.ok(toolNames.includes('get_station_transfers'));
+  assert.ok(!toolNames.includes('bilet_tb_catalog'));
+  assert.ok(!toolNames.includes('bilet_tb_status'));
 
   // 2. Call list_lines
   const linesRes = (await client.callTool({
@@ -88,31 +90,33 @@ test('MCP Server: tools, resources, and prompts integration', async () => {
   const statsData = JSON.parse(statsRes.content[0].text);
   assert.ok(statsData.totalVehicles > 0);
 
-  // 9. Call bilet_tb_catalog
-  const catalogRes = (await client.callTool({
-    name: 'bilet_tb_catalog',
+  // 9. Call get_transit_agencies
+  const agencyRes = (await client.callTool({
+    name: 'get_transit_agencies',
     arguments: {}
   })) as any;
-  const catalogData = JSON.parse(catalogRes.content[0].text);
-  assert.ok(catalogData.tickets.length >= 6);
+  const agencyData = JSON.parse(agencyRes.content[0].text);
+  assert.ok(agencyData.count >= 5);
+  assert.ok(agencyData.agencies.some((a: any) => a.name.includes('STB')));
 
-  // 10. Call bilet_tb_status without token
-  const biletRes = (await client.callTool({
-    name: 'bilet_tb_status',
-    arguments: {}
+  // 10. Call get_station_transfers
+  const transferRes = (await client.callTool({
+    name: 'get_station_transfers',
+    arguments: { station: 'Gara de Nord' }
   })) as any;
-  const biletData = JSON.parse(biletRes.content[0].text);
-  assert.equal(biletData.authenticated, false);
+  const transferData = JSON.parse(transferRes.content[0].text);
+  assert.ok(transferData.count > 0);
 
   // 11. Test resources
   const resources = await client.listResources();
   const uris = resources.resources.map((r) => r.uri);
   assert.ok(uris.includes('bucharest://transit/stats'));
   assert.ok(uris.includes('bucharest://transit/lines'));
-  assert.ok(uris.includes('bucharest://transit/catalog'));
+  assert.ok(uris.includes('bucharest://transit/agencies'));
+  assert.ok(!uris.includes('bucharest://transit/catalog'));
 
-  const readCatalog = await client.readResource({ uri: 'bucharest://transit/catalog' });
-  assert.ok(readCatalog.contents.length > 0);
+  const readAgencies = await client.readResource({ uri: 'bucharest://transit/agencies' });
+  assert.ok(readAgencies.contents.length > 0);
 
   // 12. Test prompts
   const prompts = await client.listPrompts();
