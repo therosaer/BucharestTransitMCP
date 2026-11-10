@@ -1,0 +1,41 @@
+{
+  "name": "bucharest-transit-mcp",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) server for Bucharest public transit (STB, TPBI, Metrorex, Bilet TB)",
+  "main": "dist/index.js",
+  "bin": {
+    "bucharest-transit-mcp": "./dist/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "start": "node dist/index.js",
+    "test": "node --test dist/**/*.test.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "bucharest",
+    "stb",
+    "tpbi",
+    "metrorex",
+    "transit",
+    "public-transport",
+    "romania"
+  ],
+  "author": "therosaer",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
